@@ -1,6 +1,6 @@
 {
   "name": "dotup-ts-interceptor-proxy",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create proxies of objects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
