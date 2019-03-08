@@ -122,6 +122,6 @@ module.exports = function (grunt) {
   // Default tasks.
   grunt.registerTask("serve", ["concurrent:watchers"]);
   grunt.registerTask("build", ["clean", "ts", "copy:assets"]);
-  grunt.registerTask("release", ["clean", "ts", "run:test", "tslint:all", "copy:assets"]);
+  grunt.registerTask("release", ["clean", "ts", "tslint:all", "copy:assets"]);
   grunt.registerTask("publish", ["release", "run:ghpages", "run:publish"]);
 };
