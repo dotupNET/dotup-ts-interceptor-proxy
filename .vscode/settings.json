@@ -1,0 +1,18 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "mocha.options": {
+    "compilers": "ts-node/register"
+  },
+  "mocha.requires": [
+    "ts-node/register"
+  ],
+  "mocha.files.glob": "src/**/*.test.ts"
+  // "files.exclude": {
+  //     "out": false // set this to true to hide the "out" folder with the compiled JS files
+  // },
+  // "search.exclude": {
+  //     "out": true // set this to false to include "out" folder in search results
+  // },
+  // Turn off tsc task auto detection since we have the necessary tasks as npm scripts
+  // "typescript.tsc.autoDetect": "off"
+}
