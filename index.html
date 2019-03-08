@@ -66,18 +66,48 @@
 			<div class="tsd-panel tsd-typography">
 				<p><a href="https://travis-ci.org/dotupNET/dotup-ts-interceptor-proxy"><img src="https://travis-ci.org/dotupNET/dotup-ts-interceptor-proxy.svg?branch=master" alt="Build Status"></a></p>
 				<h1 id="dotup-ts-interceptor-proxy">dotup-ts-interceptor-proxy</h1>
-				<p>Template for typescript libraries.</p>
-				<p>With tslint, jasmine, travis, typedoc and gh-pages integration.</p>
+				<p>Create proxy of any object and add interceptors.</p>
 				<h2 id="usage">USAGE</h2>
-				<p>Replace your-project-name and your-user-name with your own.</p>
-				<ul>
-					<li>git clone <a href="https://github.com/dotupNET/dotup-ts-interceptor-proxy.git">https://github.com/dotupNET/dotup-ts-interceptor-proxy.git</a> <strong>your-project-name</strong></li>
-					<li>git remote set-url origin <a href="https://github.com/your-user-name/your-project-name.git">https://github.com/your-user-name/your-project-name.git</a></li>
-					<li>Modify package.json (name, version, ...)</li>
-					<li>Create your library</li>
-					<li>Run in terminal: npm publish</li>
-					<li>git remote add template <a href="https://github.com/dotupNET/dotup-ts-interceptor-proxy.git">https://github.com/dotupNET/dotup-ts-interceptor-proxy.git</a> (if you want to fetch upgrades)</li>
-				</ul>
+				<pre><code class="language-typescript">
+<span class="hljs-keyword">import</span> { logMethodCallInterceptor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./BuildInInterceptor'</span>;
+<span class="hljs-keyword">import</span> { ICallInterceptor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./ICallInterceptor'</span>;
+<span class="hljs-keyword">import</span> { intercept } <span class="hljs-keyword">from</span> <span class="hljs-string">'./Interceptor'</span>;
+<span class="hljs-keyword">import</span> { Model } <span class="hljs-keyword">from</span> <span class="hljs-string">'./test/Model'</span>;
+<span class="hljs-keyword">import</span> { MethodInterceptor } <span class="hljs-keyword">from</span> <span class="hljs-string">'./types'</span>;
+
+<span class="hljs-keyword">const</span> callInterceptor: ICallInterceptor&lt;Model&gt; = {
+  kind: <span class="hljs-string">'ICallInterceptor'</span>,
+  callback(typeOfKey: <span class="hljs-built_in">string</span>, target: Model, key: keyof Model, value: Model[keyof Model]): <span class="hljs-built_in">void</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`callInterceptor for "<span class="hljs-subst">${key}</span>" value: <span class="hljs-subst">${value}</span>`</span>);
+  }
+};
+
+<span class="hljs-keyword">const</span> mi: MethodInterceptor&lt;Model&gt; = {
+  getCount: <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'MethodInterceptor for getCount'</span>);
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">4</span>;
+  }
+};
+
+<span class="hljs-keyword">const</span> nameInterceptor: MethodInterceptor&lt;Model&gt; = {
+  setName: <span class="hljs-function">(<span class="hljs-params">name: <span class="hljs-built_in">string</span></span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`name changed to <span class="hljs-subst">${name}</span>`</span>);
+  }
+};
+
+<span class="hljs-keyword">const</span> myIntercepter = [nameInterceptor, logMethodCallInterceptor, callInterceptor, mi];
+
+<span class="hljs-comment">// @ts-ignore</span>
+<span class="hljs-comment">// tslint:disable-next-line: no-unsafe-any</span>
+Model = intercept(Model, myIntercepter);
+
+<span class="hljs-keyword">const</span> model = <span class="hljs-keyword">new</span> Model();
+model.count = <span class="hljs-number">7</span>;
+<span class="hljs-keyword">const</span> count = model.getCount();
+model.setName(<span class="hljs-string">'oha'</span>);
+<span class="hljs-built_in">console</span>.log(model.name);
+</code></pre>
 				<h2 id="docs-">Docs:</h2>
 				<p><a href="https://dotupnet.github.io/dotup-ts-interceptor-proxy/index.html">https://dotupnet.github.io/dotup-ts-interceptor-proxy/index.html</a></p>
 				<h2 id="repository-">repository:</h2>
